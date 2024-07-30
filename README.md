@@ -24,3 +24,6 @@ npm run start
 ```sh
 npm run dev
 ```
+
+## **Important**
+**make sure you are in the root project dir before you add or commit any changes**

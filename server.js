@@ -18,6 +18,7 @@ app.get('/creation', (req, res) => {
 
 // Process the form and generate the CV
 app.post('/submit-form', async (req, res) => {
+  console.log("got req");
     // Read the cv.html template
     const cvHtml = fs.readFileSync('cv.html', 'utf8');
 
@@ -27,9 +28,9 @@ app.post('/submit-form', async (req, res) => {
 
     // Update the cv.html with form data
     cvDocument.getElementById('cv_name').textContent = req.body.name;
-    cvDocument.getElementById('cv_mail').textContent = req.body.mail;
+    cvDocument.getElementById('cv_email').textContent = req.body.mail;
     cvDocument.getElementById('cv_phone').textContent = req.body.phone;
-    cvDocument.getElementById('cv_adresse').textContent = req.body.adresse;
+    cvDocument.getElementById('cv_address').textContent = req.body.adresse;
     // Assuming no address in cv.html
 
     // Serialize the updated cv DOM to HTML

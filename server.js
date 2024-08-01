@@ -3,22 +3,21 @@ const fs = require('fs');
 const { JSDOM } = require('jsdom');
 const puppeteer = require('puppeteer');
 const path = require('path');
+const cors = require("cors")
+ 
 
 const app = express();
-app.use(express.urlencoded({ extended: true }));
+
+app.use(cors()) // disable cors 
+app.use(express.json({limit:"5mb"})); // to parse JSON and set the size lim to 5mb
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/creation.html');
-});
-// Serve the form
-app.get('/creation', (req, res) => {
-    res.sendFile(__dirname + '/creation.html');
-});
 
 // Process the form and generate the CV
 app.post('/submit-form', async (req, res) => {
-  console.log("got req");
+    console.log("got req");
+    console.log(req.body);
+    
     // Read the cv.html template
     const cvHtml = fs.readFileSync('cv.html', 'utf8');
 
@@ -28,9 +27,12 @@ app.post('/submit-form', async (req, res) => {
 
     // Update the cv.html with form data
     cvDocument.getElementById('cv_name').textContent = req.body.name;
+    cvDocument.getElementById('description').textContent = req.body.description;
     cvDocument.getElementById('cv_email').textContent = req.body.mail;
     cvDocument.getElementById('cv_phone').textContent = req.body.phone;
-    cvDocument.getElementById('cv_address').textContent = req.body.adresse;
+    cvDocument.getElementById('cv_address').textContent = req.body.address;
+    cvDocument.getElementById('permis').textContent = req.body.permis;
+    cvDocument.getElementById('profile').src = req.body.photo; // make it valid base 64
     // Assuming no address in cv.html
 
     // Serialize the updated cv DOM to HTML

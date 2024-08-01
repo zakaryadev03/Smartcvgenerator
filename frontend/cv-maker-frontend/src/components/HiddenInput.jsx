@@ -1,7 +1,7 @@
-function HiddenInput() {
+function HiddenInput({name}) {
   return (
     <div>
-      <input type="text" className="border-b-2 border-gray-900 pl-1"/>
+      <input name={name} type="text" className="border-b-2 border-gray-900 pl-1"/>
     </div>
   )
 }

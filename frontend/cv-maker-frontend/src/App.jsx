@@ -23,6 +23,7 @@ function App() {
       let data = {
         photo: base64Data,
         name: e.target.name.value,
+        description:e.target.description.value,
         address: e.target.address.value,
         phone: e.target.phone.value,
         mail: e.target.mail.value,

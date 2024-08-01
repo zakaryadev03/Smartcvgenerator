@@ -4,12 +4,12 @@ const { JSDOM } = require('jsdom');
 const puppeteer = require('puppeteer');
 const path = require('path');
 const cors = require("cors")
- 
+
 
 const app = express();
 
 app.use(cors()) // disable cors 
-app.use(express.json({limit:"5mb"})); // to parse JSON and set the size lim to 5mb
+app.use(express.json({ limit: "5mb" })); // to parse JSON and set the size lim to 5mb
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -43,8 +43,7 @@ app.post('/submit-form', async (req, res) => {
     const page = await browser.newPage();
     await page.setContent(updatedCvHtml, { waitUntil: 'networkidle0' });
     await page.addStyleTag({ path: path.join(__dirname, 'public', 'cv.css') });
-    const pdf = await page.pdf({ format: 'A4' });
-
+    const pdf = await page.pdf({ format: 'A4', printBackground: true });
     await browser.close();
 
     // Send the PDF as the response

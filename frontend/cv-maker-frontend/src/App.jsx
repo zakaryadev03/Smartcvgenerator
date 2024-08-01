@@ -11,9 +11,10 @@ function App() {
   const SERVER_POST_URL = "http://localhost:3000/submit-form"
 
   const [profileImg, setProfileImg] = useState();
-  const [dataTosend, setDataTosend] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   async function SubmitHandler(e) {
     e.preventDefault()
+    setIsLoading(true)
     console.log(profileImg);
     // to transfer data from binary to base64
     const fr = new FileReader()
@@ -23,7 +24,7 @@ function App() {
       let data = {
         photo: base64Data,
         name: e.target.name.value,
-        description:e.target.description.value,
+        description: e.target.description.value,
         address: e.target.address.value,
         phone: e.target.phone.value,
         mail: e.target.mail.value,
@@ -41,13 +42,14 @@ function App() {
           "Content-type": "application/json"
         }
       })
-  
+
       download(await res.blob())
+      setIsLoading(false)
     })
     fr.readAsDataURL(profileImg)
   }
 
-  
+
   function download(blob, filename) {
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement("a")
@@ -56,7 +58,7 @@ function App() {
     a.download = filename;
     document.body.appendChild(a)
     a.click()
-    document.removeChild(a)
+    document.body.removeChild(a)
     window.URL.revokeObjectURL(url)
   }
 
@@ -114,7 +116,7 @@ function App() {
               </div>
             </div>
           </div>
-          <Button />
+          <Button isLoading={isLoading} />
         </section>
       </form>
     </>
